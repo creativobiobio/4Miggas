@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>4 Miggas - Menú Digital</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@300;400;600;900&display=swap" rel="stylesheet">
+
+<style>
+
+:root {
+    --bg-color: #f5efe6;
+    --card-bg: #ffffff;
+    --primary-red: #b22222;
+    --text-main: #2c2c2c;
+    --text-muted: #6b6b6b;
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background-color:var(--bg-color);
+color:var(--text-main);
+line-height:1.6;
+-webkit-tap-highlight-color:transparent;
+}
+
+/* HEADER */
+
+header{
+padding:40px 20px 20px;
+display:flex;
+flex-direction:column;
+align-items:center;
+text-align:center;
+background:linear-gradient(to bottom,#ede6db,var(--bg-color));
+}
+
+.logo-container{
+width:180px;
+margin-bottom:15px;
+}
+
+.logo-container img{
+width:100%;
+height:auto;
+filter:drop-shadow(0 5px 15px rgba(0,0,0,0.2));
+}
+
+.divider{
+width:60px;
+height:2px;
+background:var(--primary-red);
+margin:15px 0;
+}
+
+/* FILTROS */
+
+.sticky-nav{
+position:sticky;
+top:0;
+z-index:100;
+background:rgba(245,239,230,0.95);
+backdrop-filter:blur(10px);
+border-bottom:1px solid rgba(0,0,0,0.05);
+padding:15px 0;
+overflow-x:auto;
+white-space:nowrap;
+scrollbar-width:none;
+}
+
+.sticky-nav::-webkit-scrollbar{
+display:none;
+}
+
+.filter-container{
+display:flex;
+gap:10px;
+padding:0 20px;
+max-width:900px;
+margin:0 auto;
+}
+
+.filter-btn{
+background:var(--card-bg);
+border:1px solid rgba(0,0,0,0.1);
+color:var(--text-muted);
+padding:8px 20px;
+border-radius:50px;
+font-size:11px;
+font-weight:700;
+text-transform:uppercase;
+cursor:pointer;
+transition:all .3s ease;
+}
+
+.filter-btn.active{
+background:var(--primary-red);
+border-color:var(--primary-red);
+color:white;
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
+}
+
+/* GRID MENU */
+
+main{
+max-width:900px;
+margin:20px auto;
+padding:0 20px 80px;
+}
+
+.grid-menu{
+display:grid;
+grid-template-columns:1fr;
+gap:20px;
+}
+
+@media(min-width:768px){
+.grid-menu{
+grid-template-columns:1fr 1fr;
+}
+}
+
+/* TARJETAS */
+
+.plato-card{
+background:var(--card-bg);
+border-radius:16px;
+overflow:hidden;
+display:flex;
+border:1px solid rgba(0,0,0,0.05);
+transition:transform .3s ease;
+}
+
+.plato-card.agotado{
+opacity:.5;
+filter:grayscale(.8);
+}
+
+.plato-img{
+width:120px;
+min-height:120px;
+background:#e8e2d9;
+flex-shrink:0;
+position:relative;
+}
+
+.plato-img img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.plato-info{
+padding:15px;
+flex-grow:1;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+}
+
+.plato-header h3{
+font-family:'Playfair Display',serif;
+font-size:17px;
+margin-bottom:5px;
+color:var(--text-main);
+}
+
+.plato-desc{
+font-size:11px;
+color:var(--text-muted);
+font-weight:300;
+margin-bottom:10px;
+display:-webkit-box;
+-webkit-line-clamp:3;
+-webkit-box-orient:vertical;
+overflow:hidden;
+}
+
+.precio{
+color:var(--primary-red);
+font-weight:900;
+font-size:18px;
+}
+
+.badge-cat{
+font-size:8px;
+text-transform:uppercase;
+font-weight:700;
+color:var(--primary-red);
+background:rgba(178,34,34,0.1);
+padding:2px 8px;
+border-radius:4px;
+}
+
+.agotado-tag{
+color:#b22222;
+border:1px solid #b22222;
+padding:2px 6px;
+font-size:9px;
+font-weight:900;
+text-transform:uppercase;
+border-radius:2px;
+}
+
+/* FOOTER */
+
+footer{
+padding:60px 20px;
+text-align:center;
+background:#efe8dc;
+border-top:1px solid rgba(0,0,0,0.05);
+}
+
+.footer-logo{
+width:80px;
+opacity:.3;
+margin-bottom:20px;
+}
+
+/* CREATIVO */
+
+.creativo-link{
+display:flex;
+flex-direction:column;
+align-items:center;
+text-decoration:none;
+margin-top:30px;
+transition:opacity .3s;
+}
+
+.creativo-link:hover{
+opacity:.7;
+}
+
+.creativo-logo{
+width:35px;
+border-radius:5px;
+margin-bottom:8px;
+}
+
+.creativo-text{
+color:var(--primary-red);
+font-weight:bold;
+font-size:10px;
+letter-spacing:2px;
+text-transform:uppercase;
+}
+
+/* LOADER */
+
+#loader{
+position:fixed;
+inset:0;
+background:var(--bg-color);
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:1000;
+}
+
+.spinner{
+width:40px;
+height:40px;
+border:3px solid rgba(178,34,34,0.1);
+border-top-color:var(--primary-red);
+border-radius:50%;
+animation:spin 1s linear infinite;
+}
+
+@keyframes spin{
+to{transform:rotate(360deg);}
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="loader">
+<div class="spinner"></div>
+<p style="margin-top:20px;font-size:10px;letter-spacing:3px;color:var(--primary-red);">
+CARGANDO 4 MIGGAS...
+</p>
+</div>
+
+<header>
+
+<div class="logo-container">
+<img src="logo.png" alt="Logo" onerror="this.style.display='none'">
+</div>
+
+<div class="divider"></div>
+
+<p style="font-size:10px;text-transform:uppercase;letter-spacing:4px;color:var(--text-muted);font-weight:300;">
+Tradición Casera & Familiar
+</p>
+
+</header>
+
+<nav class="sticky-nav">
+<div class="filter-container" id="category-filters"></div>
+</nav>
+
+<main>
+<div class="grid-menu" id="menu-items"></div>
+</main>
+
+<footer>
+
+<img src="logo.png" class="footer-logo" alt="Logo" onerror="this.style.display='none'">
+
+<p style="font-size:11px;color:var(--text-muted);letter-spacing:1px;">
+CURANILAHUE · CHILE
+</p>
+
+<a href="https://www.instagram.com/creativobiobio?igsh=dGZnY2JyMGVydDVq" target="_blank" class="creativo-link">
+
+<img src="logo2.jpg" class="creativo-logo" alt="Creativo" onerror="this.style.display='none'">
+
+<span class="creativo-text">
+Desarrollado por CREATIVO
+</span>
+
+</a>
+
+</footer>
+
+<script>
+
+const SHEET_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vTr2kreWK6mtIYF3dHAiWDnu0nD50rvPB5iFMTN8yKdKeV5e4CaKfYF4HeIOsmX_cCG4-mHnc54MUld/pub?output=csv';
+
+let allItems=[];
+
+function formatCLP(val){
+
+const num=parseInt(val.toString().replace(/\D/g,''));
+
+if(isNaN(num)) return `$ ${val}`;
+
+return `$ ${num.toLocaleString('es-CL')}`;
+
+}
+
+async function loadData(){
+
+try{
+
+const response=await fetch(SHEET_URL);
+
+const data=await response.text();
+
+const rows=data.split(/\r?\n/).slice(1);
+
+allItems=rows.map(row=>{
+
+const columns=row.match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
+
+if(!columns||columns.length<5) return null;
+
+const clean=columns.map(c=>c.replace(/^"|"$/g,'').trim());
+
+return{
+
+categoria:clean[0],
+nombre:clean[1],
+descripcion:clean[2],
+precio:clean[3],
+disponible:clean[4]?.toUpperCase()==='SI',
+imagen:clean[5]||null
+
+};
+
+}).filter(i=>i!==null);
+
+renderFilters();
+
+renderMenu('Todo');
+
+document.getElementById('loader').style.display='none';
+
+}catch(error){
+
+console.error("Error:",error);
+
+document.getElementById('loader').innerHTML="<p style='color:red;'>Error de conexión.</p>";
+
+}
+
+}
+
+function renderFilters(){
+
+const container=document.getElementById('category-filters');
+
+const rawCats=[...new Set(allItems.map(i=>i.categoria))];
+
+const priority=['Carnes','Tablas','Sandwich'];
+
+const others=rawCats.filter(c=>!priority.includes(c)).sort();
+
+const finalCats=['Todo',...priority.filter(p=>rawCats.includes(p)),...others];
+
+container.innerHTML=finalCats.map(cat=>`
+
+<button class="filter-btn ${cat==='Todo'?'active':''}" onclick="filterBy('${cat}',this)">
+
+${cat}
+
+</button>
+
+`).join('');
+
+}
+
+function filterBy(cat,btn){
+
+document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+
+btn.classList.add('active');
+
+renderMenu(cat);
+
+window.scrollTo({top:document.querySelector('header').offsetHeight-20,behavior:'smooth'});
+
+}
+
+function renderMenu(cat){
+
+const container=document.getElementById('menu-items');
+
+const filtered=cat==='Todo'?allItems:allItems.filter(i=>i.categoria===cat);
+
+container.innerHTML=filtered.map(item=>`
+
+<div class="plato-card ${!item.disponible?'agotado':''}">
+
+<div class="plato-img">
+
+${item.imagen?`<img src="${item.imagen}" alt="${item.nombre}" onerror="this.parentElement.innerHTML='<div style=\\'height:100%;width:100%;display:flex;align-items:center;justify-content:center;opacity:0.1\\'>🍴</div>'">`:'<div style="height:100%;width:100%;display:flex;align-items:center;justify-content:center;opacity:0.1">🍴</div>'}
+
+${!item.disponible?'<div style="position:absolute;inset:0;background:rgba(0,0,0,0.6);display:flex;align-items:center;justify-content:center;"><span style="color:#b22222;border:1px solid #b22222;padding:2px 6px;font-size:9px;font-weight:900;text-transform:uppercase;">Agotado</span></div>':''}
+
+</div>
+
+<div class="plato-info">
+
+<div class="plato-header">
+
+<h3>${item.nombre}</h3>
+
+<p class="plato-desc">${item.descripcion}</p>
+
+</div>
+
+<div style="display:flex;justify-content:space-between;align-items:center;">
+
+<span class="precio">${formatCLP(item.precio)}</span>
+
+<span class="badge-cat">${item.categoria}</span>
+
+</div>
+
+</div>
+
+</div>
+
+`).join('');
+
+}
+
+window.onload=loadData;
+
+</script>
+
+</body>
+</html>
